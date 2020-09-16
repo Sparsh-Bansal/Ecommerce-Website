@@ -1,0 +1,88 @@
+{% extends 'store/main.html' %}
+{% block content %}
+    <div class="row my-2">
+		<div class="col-lg-4 order-lg-1 text-center">
+			{% if request.user.profile.photo %}
+				<img src="{{ user.profile.photo.url }}" class="mx-auto img-fluid img-circle d-block" alt="avatar" width="150" height="150">
+			{% else %}
+				<img src="static/images/default.png" class="mx-auto img-fluid img-circle d-block" alt="avatar" width="150" , height="150">
+			{% endif %}
+            {% if request.user.is_authenticated %}
+				{% if request.user == user %}
+					<br>
+					<a class="btn btn-secondary mb-2" href="{% url 'edit_profile' %}">Edit Profile</a>
+				{% endif %}
+			{% endif %}
+        </div>
+        <div class="col-lg-8 order-lg-2">
+            <div class="tab-content py-4">
+                <div class="tab-pane active" id="profile">
+					<h6>@{{user.username}}</h6>
+                    <h2 class="mb-3">{{user.first_name}} {{user.last_name}}</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+							<p><strong>Date Of Birth: </strong>{{user.profile.dob}}</p>
+							<p><strong>E-Mail: </strong>{{user.email}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+	<hr class="my-4">
+	<hr class="my-4">
+
+	<div>
+		{% if request.user.is_authenticated %}
+				<div class="box-element">
+						<div class="cart-row">
+							<div style="flex:1"></div>
+							<div style="flex:1"><strong>Item</strong></div>
+							<div style="flex:1"><strong>Date Ordered</strong></div>
+							<div style="flex:1"><strong>Transaction Id</strong></div>
+							<div style="flex:1"><strong>Price</strong></div>
+							<div style="flex:1"><strong>Quantity</strong></div>
+							<div style="flex:1"><strong>Total</strong></div>
+						</div>
+					{% for item in items %}
+						<div class="cart-row">
+							<div style="flex:1"><img class="row-image" src="{{item.product.get_imageURL}}"></div>
+							<div style="flex:1"><p>{{item.product.name}}</p></div>
+							<div style="flex:1"><p>{{item.date_ordered}}</p></div>
+							<div style="flex:1"><p>{{item.transaction_id}}</p></div>
+							<div style="flex:1"><p>${{item.product.price}}</p></div>
+							<div style="flex:1">
+								<p class="quantity">{{item.quantity}}</p>
+							</div>
+							<div style="flex:1"><p>${{item.get_total}}</p></div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+	</div>
+	<!-- <div>
+		<h2 class="display-6">Your Asked Questions</h2>
+		<hr class="my-4">
+		{% for q in questions %}
+			<div>
+				<h2><p><a style="color: black;" href="{% url 'quora:ques_detail' q.id %}">{{q.title}}</a></p></h2>
+				<p><strong>Author: </strong><a href="{% url 'quora:profilepage' q.author %}">{{q.author}}</a>
+					<span class="float-right">
+						<span class="badge badge-secondary">Created: {{q.created}}</span>
+						<span class="badge badge-secondary">Updated: {{q.updated}}</span>
+						<span style="text-transform: capitalize;" class="badge badge-secondary">{{q.status}}</span></p>
+					</span>
+				</p>
+				<h4>Description:</h4><h6>{{q.body}}</h6>
+			</div>
+			<br>
+			<hr class="my-4">
+		{% endfor %}
+	</div>
+	<br>
+	<br> -->
+	<blockquote class="blockquote text-center">
+		<p class="mb-0">** That's it! **</p>
+		<footer class="blockquote-footer"> You've scrolled to the end of the List!</footer>
+	</blockquote>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'store/main.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ user_form|crispy }}
+		{{ profile_form|crispy }}
+		<br>
+		<input type="submit" class="btn btn-primary mb-2" name="submit" value="Save Changes!">
+		<a class="btn btn-secondary mb-2" href="{% url 'profilepage' username=user.username %}">Discard Changes!</a>
+	</form>
+
+{% endblock %}
+

@@ -1,0 +1,23 @@
+{% extends 'store/main.html' %}
+{% block content %}
+    <div class="row my-2">
+		<div class="col-lg-4 order-lg-1 text-center">
+			<img src="{{product.get_imageURL}}" width="200" height="200">
+        </div>
+        <div class="col-lg-8 order-lg-2">
+            <div class="tab-content py-4">
+                <div class="tab-pane active" id="profile">
+                    <h3 class="mb-3">{{product.name}}</h3>
+                    <h4 class="mb-3">${{product.price}}</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+
+							<p><strong>Description: </strong>{{product.description}}</p>
+							<!-- <p><strong>E-Mail: </strong>{{user.email}}</p> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+{% endblock %}
