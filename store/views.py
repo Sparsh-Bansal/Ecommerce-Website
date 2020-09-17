@@ -1,7 +1,12 @@
 from django.shortcuts import render
-from .models import Product , OrderItem
+from .models import Product , OrderItem , ShippingAddress
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from .forms import ShippingForm
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse , HttpResponseRedirect
+from django.urls import reverse
+
 import json
 
 # Create your views here.
@@ -44,6 +49,9 @@ def cart(request):
 
 def checkout(request):
 
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('user_login'))
+
     items = []
     total_cost_cart = 0
     total_item_cart = 0
@@ -56,10 +64,23 @@ def checkout(request):
         for item in items:
             total_cost_cart += item.get_total
 
+    form = ShippingForm()
+    if request.method == 'POST':
+        form = ShippingForm(request.POST)
+        if form.is_valid():
+            adr = form.save(commit=False)
+            adr.user = request.user
+            adr.save()
+        return HttpResponseRedirect(reverse('checkout'))
+
+    addresses = ShippingAddress.objects.filter(user = request.user)
+
     context = {
         'items': items,
         'total_item_cart': total_item_cart,
-        'total_cost_cart': total_cost_cart
+        'total_cost_cart': total_cost_cart,
+        'form' : form,
+        'addresses' : addresses,
     }
     return render(request, 'store/checkout.html', context)
 
@@ -131,3 +152,17 @@ def item_detail(request,id):
         'total_item_cart' : total_item_cart,
     }
     return render(request,'store/item_detail.html',context)
+
+# @login_required()
+# def shipping_ad(request):
+#     form = ShippingForm()
+#     if request.method == 'POST':
+#         form = ShippingForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#         return HttpResponseRedirect('checkout')
+#
+#     context = {
+#         'form' : form
+#     }
+#     return render(request)

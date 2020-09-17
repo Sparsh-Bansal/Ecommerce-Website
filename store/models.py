@@ -23,10 +23,11 @@ class Product(models.Model):
         return url
 
 
+
 class OrderItem(models.Model):
 
-    user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=False)
-    product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True,blank=False)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=False)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True,blank=False)
     date_ordered = models.DateTimeField(auto_now_add=True)
     quantity = models.IntegerField(default=0,blank=True,null=True)
     complete = models.BooleanField(default=False)
@@ -41,6 +42,42 @@ class OrderItem(models.Model):
         return '{}-{}'.format(self.user.username,self.product.name)
 
 
+
 class ShippingAddress(models.Model):
 
-    pass
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=False)
+    recepient_fullname = models.CharField(max_length=100,null=True,blank=False)
+    phone_no = models.IntegerField(null=False,blank=False)
+    address_line1 = models.CharField(max_length=200, null=True,blank=False)
+    address_line2 = models.CharField(max_length=100,null=True,blank=True)
+    city = models.CharField(max_length=200, null=False)
+    state = models.CharField(max_length=200, null=False)
+    country = models.CharField(max_length=100,null=True,blank=False)
+    zipcode = models.CharField(max_length=200, null=False)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '{}-{}'.format(self.address_line1, self.address_line2)
+
+
+
+class Purchased_item(models.Model):
+
+    address = models.ForeignKey(ShippingAddress,on_delete=models.DO_NOTHING,null=True,blank=False)
+    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING, null=True, blank=False)
+    amount = models.IntegerField(null=True,blank=False)
+    quantity = models.IntegerField(default=0, blank=True, null=True)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    transaction_id = models.CharField(max_length=100)
+
+
+    def __str_ (self):
+        return '{}-{}'.format(self.user.username,self.product.name)
+
+
+
+class FullOrder(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name

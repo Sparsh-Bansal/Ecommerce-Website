@@ -135,7 +135,7 @@ SOCIAL_AUTH_URL_NAMESPACE = 'social'
 SOCIAL_AUTH_URL_NAMESPACE = "users:social"
 
 
-LOGIN_URL = 'store/'
+LOGIN_URL = ''
 LOGOUT_URL = 'store/'
 
 LOGIN_REDIRECT_URL = 'store'
