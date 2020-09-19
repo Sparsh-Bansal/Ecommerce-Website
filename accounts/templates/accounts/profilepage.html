@@ -31,35 +31,50 @@
 	</div>
 	<hr class="my-4">
 	<hr class="my-4">
-
+	<h3>Ordered Items : </h3>
 	<div>
 		{% if request.user.is_authenticated %}
-				<div class="box-element">
+			{% for order in ordered %}
+				<div class="box-element" style="background-color: lightgray" ">
 						<div class="cart-row">
-							<div style="flex:1"></div>
-							<div style="flex:1"><strong>Item</strong></div>
-							<div style="flex:1"><strong>Date Ordered</strong></div>
-							<div style="flex:1"><strong>Transaction Id</strong></div>
-							<div style="flex:1"><strong>Price</strong></div>
-							<div style="flex:1"><strong>Quantity</strong></div>
-							<div style="flex:1"><strong>Total</strong></div>
-						</div>
-					{% for item in items %}
-						<div class="cart-row">
-							<div style="flex:1"><img class="row-image" src="{{item.product.get_imageURL}}"></div>
-							<div style="flex:1"><p>{{item.product.name}}</p></div>
-							<div style="flex:1"><p>{{item.date_ordered}}</p></div>
-							<div style="flex:1"><p>{{item.transaction_id}}</p></div>
-							<div style="flex:1"><p>${{item.product.price}}</p></div>
 							<div style="flex:1">
-								<p class="quantity">{{item.quantity}}</p>
+								<strong>Order Placed</strong>
+								<h6>{{ order.order.date_ordered | date:"d M Y"}} </h6>
 							</div>
-							<div style="flex:1"><p>${{item.get_total}}</p></div>
+							<div style="flex:1">
+								<strong>Transaction Id</strong>
+								<h6>{{order.order.transaction_id}}</h6>
+							</div>
+							<div style="flex:1">
+								<strong>Total</strong>
+								<h6>&#8377;{{order.order.amount}}</h6>
+							</div>
+							<div style="flex:1">
+								<strong>Shipped to :</strong>
+								<div>{{order.order.recepient_fullname}}({{order.order.phone_no}})</div>
+								<div>{{order.order.address_line1}}, {{order.order.address_line2}}</div>
+								<div>{{order.order.city}},{{order.order.state}},{{order.order.country}}</div>
+								<div>{{order.order.zipcode}}</div>
+							</div>
+						</div>
+					{% for item in order.items %}
+						<div class="cart-row" style="background-color: lightblue">
+							<div style="flex:1"><img class="row-image" src="{{item.get_imageURL}}"></div>
+							<div style="flex:1"><p>Product :{{item.name}}</p></div>
+							<div style="flex:1"><p>Price :&#8377;{{item.price}}</p></div>
+							<div style="flex:1">
+								<p class="quantity">Quantity :{{item.quantity}}</p>
+							</div>
+							<div style="flex:1"><p>Total :${{item.get_total}}</p></div>
 						</div>
 					{% endfor %}
 				</div>
-			{% endif %}
+				<br>
+			{% endfor %}
+			<br>
+		{% endif %}
 	</div>
+	<br><br>
 	<blockquote class="blockquote text-center">
 		<p class="mb-0">** That's it! **</p>
 		<footer class="blockquote-footer"> You've scrolled to the end of the List!</footer>

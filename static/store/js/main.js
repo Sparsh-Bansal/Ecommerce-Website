@@ -5,7 +5,7 @@ $('.update_cart').click(function(e){
 	$.ajax( 
 	{ 
 	    type:"POST", 
-	    url: "insert_cart/", 
+	    url: "http://127.0.0.1:8000/insert_cart/",
 	    data:{ 
 	      		'product_id' : product_id,
 	      		'csrfmiddlewaretoken' : '{{ csrf_token }}',
@@ -28,7 +28,7 @@ $('.update_cart_quantity').click(function(e){
 	$.ajax( 
 	{ 
 	    type:"POST", 
-	    url: 'update_item/', 
+	    url: 'http://127.0.0.1:8000/cart/update_item/',
 	    data:{ 
 	      		'product_id' : product_id,
 	      		'action' : action,

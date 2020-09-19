@@ -9,10 +9,10 @@
 
 				<br>
 				<br>
-				<table class="table">
+				<table class="table" style="background-color: lightyellow">
 					<tr>
 						<th><h5>Items: <strong>{{total_item_cart}}</strong></h5></th>
-						<th><h5>Total:<strong> ${{total_cost_cart}}</strong></h5></th>
+						<th><h5>Total:<strong> &#8377;{{total_cost_cart}}</strong></h5></th>
 						<th>
 							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
 						</th>
@@ -24,7 +24,7 @@
 			<br>
 			{% if request.user.is_authenticated %}
 				<div class="box-element">
-						<div class="cart-row">
+						<div class="cart-row" style="background-color: lightgray">
 							<div style="flex:2"></div>
 							<div style="flex:2"><strong>Item</strong></div>
 							<div style="flex:1"><strong>Price</strong></div>
@@ -32,10 +32,10 @@
 							<div style="flex:1"><strong>Total</strong></div>
 						</div>
 					{% for item in items %}
-						<div class="cart-row">
+						<div class="cart-row" style="background-color: lightyellow">
 							<div style="flex:2"><a href="{% url 'item_detail' item.product.id %}"><img class="row-image" src="{{item.product.get_imageURL}}"></a></div>
 							<div style="flex:2"><p>{{item.product.name}}</p></div>
-							<div style="flex:1"><p>${{item.product.price}}</p></div>
+							<div style="flex:1"><p>&#8377;{{item.product.price}}</p></div>
 							<div style="flex:1">
 								<p class="quantity">{{item.quantity}}</p>
 								<div class="quantity">

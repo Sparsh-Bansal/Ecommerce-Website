@@ -12,12 +12,41 @@
 	<script type="text/javascript">
 		var user = '{{request.user}}'
 	</script>
+	<style>
+
+		.dropdown {
+		  position: relative;
+		  display: inline-block;
+		}
+
+		.dropdown-content {
+		  display: none;
+		  position: absolute;
+		  background-color: #f1f1f1;
+		  min-width: 120px;
+		  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		  z-index: 1;
+		}
+
+		.dropdown-content a {
+		  color: black;
+		  padding: 8px 16px;
+		  text-decoration: none;
+		  display: block;
+		}
+
+		.dropdown-content a:hover {background-color: #ddd;}
+
+		.dropdown:hover .dropdown-content {display: block;}
+
+
+</style>
 
 </head>
 <body>
 
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	  <a class="navbar-brand" href="{% url 'store' %}">Ecom</a>
+	  <h5><strong><a class="navbar-brand" href="{% url 'store' %}" style="color: white">Ecom</a></strong></h5>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
@@ -25,31 +54,40 @@
 	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	    <ul class="navbar-nav mr-auto">
 	      <li class="nav-item active">
-	        <a class="nav-link" href="{% url 'store' %}">Store <span class="sr-only">(current)</span></a>
+	        <h5><strong><a class="nav-link" href="{% url 'store' %}" style="color: white">Store <span class="sr-only">(current)</span></a></strong></h5>
 	      </li>
 	 
 	    </ul>
 	    <div class="form-inline my-2 my-lg-0">
 	    	{% if request.user.is_authenticated %}
-	     		<a href="{% url 'edit_profile' %}"class="btn btn-warning">Edit Profile</a>
-	     		<h2>.</h2>
-	     		<a href="{% url 'logout' %}"class="btn btn-warning">Logout</a>
-	     		<h2>------</h2>
+	    		<div class="dropdown">
+					  <h5><strong><a style="color: white">Categories</a></strong></h5>
+					  <div class="dropdown-content">
+					    <a href="#">Link 1</a>
+					    <a href="#">Link 2</a>
+					    <a href="#">Link 3</a>
+					  </div>
+				</div>
+				<h2 style="color: darkcyan">...</h2>
+	     		<h5><strong><a href="{% url 'order_details' %}" style="color: white">Orders</a></strong></h5>
+	     		<h2 style="color: darkcyan">...</h2>
+	     		<h5><strong><a href="{% url 'user_logout' %}" style="color: white">Logout</a></strong></h5>
+	     		<h2 style="color: darkcyan">.......</h2>
 	     		{% if request.user.profile.photo %}
 					<a href="{% url 'profilepage' username=user.username %}"><img src="{{ request.user.profile.photo.url }}" width="35" height="35"></a>
 				{% else %}
 					<a href="{% url 'profilepage' username=user.username %}"><img src="/static/images/default.png" width="35" , height="35"></a>
 				{% endif %}
-				<h2>-</h2>
-		    	<a href="{% url 'profilepage' username=request.user.username %} " class="btn btn-primary mb-0">{{request.user.username}}</a>
+				<h2 style="color: darkcyan">.</h2>
+		    	<h5><strong><a href="{% url 'profilepage' username=request.user.username %}" style="color: white">{{request.user.username}}</a></strong></h5>
 	     	{% else %}
-	     		<a href="{% url 'login' %}"class="btn btn-warning">Login</a>
-	     		<br>
+	     		<h5><strong><a href="{% url 'user_login' %}" style="color: white">Login</a></strong></h5>
+	     		<h2 style="color: darkcyan">...</h2>
 	     		<div>
-		     		<a href="{% url 'register' %}"class="btn btn-warning">Register</a>
+		     		<h5><strong><a href="{% url 'register' %}" style="color: white">Register</a></strong></h5>
 	     		</div>
 	     	{% endif %}
-
+	     	<h2 style="color: darkcyan">..</h2>
 	     	<a href="{% url 'cart' %}">
 	    		<img  id="cart-icon" src="{% static 'images/cart.png' %}">
 	    	</a>

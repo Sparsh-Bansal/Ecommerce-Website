@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from store.models import Product,OrderItem , FullOrder , Purchased_item
 
+
 # Create your views here.
 def user_login(request):
     if request.user.is_authenticated:
@@ -126,12 +127,17 @@ def profilepage(request,username):
 
     user = User.objects.get(username=username)
     profile = Profile.objects.all()
-    ordered = FullOrder.objects.filter(user=request.user).order_by('-date_ordered')
-    items = Purchased_item.objects.filter(user=request.user)
+    orders = FullOrder.objects.filter(user=request.user).order_by('-date_ordered')
 
+    ordered = []
+    for order in orders:
+        tt = []
+        items = Purchased_item.objects.filter(order = order)
+        for item in items:
+            tt.append(item)
+        ordered.append({'order':order , 'items':tt})
     context = {
         'ordered' : ordered,
-        'items' : items,
         'profile' : profile,
         'user' : user,
         'total_item_cart' : total_item_cart,

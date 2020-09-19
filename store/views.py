@@ -78,6 +78,7 @@ def checkout(request):
 
     addresses = ShippingAddress.objects.filter(user = request.user)
 
+
     context = {
         'items': items,
         'total_item_cart': total_item_cart,
@@ -95,6 +96,7 @@ def insert_into_cart(request):
     total_item_cart = 0
     about = 'item_not_added'
     if request.user.is_authenticated:
+        print('sparsh')
         about = 'Item Added'
         product_id = request.POST.get('product_id')
         product = Product.objects.get(id = product_id)
@@ -159,6 +161,34 @@ def item_detail(request,id):
     return render(request,'store/item_detail.html',context)
 
 
+def order_details(request):
+
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('user_login'))
+
+    total_item_cart = 0
+    if request.user.is_authenticated:
+        items = OrderItem.objects.filter(user=request.user)
+        for item in items:
+            total_item_cart += item.quantity
+
+    orders = FullOrder.objects.filter(user=request.user).order_by('-date_ordered')
+
+    ordered = []
+    for order in orders:
+        tt = []
+        items = Purchased_item.objects.filter(order=order)
+        for item in items:
+            tt.append(item)
+        ordered.append({'order': order, 'items': tt})
+
+    context = {
+        'ordered': ordered,
+        'total_item_cart': total_item_cart,
+    }
+    return render(request,'store/order_details.html',context)
+
+
 
 def make_payment(request,id):
 
@@ -204,3 +234,4 @@ def make_payment(request,id):
     }
 
     return JsonResponse(context,safe=False)
+

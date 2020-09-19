@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 import datetime
 # Create your models here.
 
+class ProductCategories(models.Model):
+    pass
+
 
 class Product(models.Model):
 
@@ -88,6 +91,19 @@ class Purchased_item(models.Model):
     price = models.FloatField(blank=False, null=True)
     image = models.ImageField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+
+    @property
+    def get_imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+
+    @property
+    def get_total(self):
+        total = self.price * self.quantity
+        return total
 
     def __str_ (self):
         return self.name
