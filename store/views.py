@@ -1,13 +1,14 @@
 from django.shortcuts import render
-from .models import Product , OrderItem , ShippingAddress
+from .models import Product , OrderItem , ShippingAddress , FullOrder , Purchased_item
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ShippingForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse , HttpResponseRedirect
 from django.urls import reverse
-
+import datetime
 import json
+
 
 # Create your views here.
 def store(request):
@@ -28,6 +29,7 @@ def store(request):
     return render(request, 'store/store.html', context)
 
 
+
 def cart(request):
 
     items = []
@@ -45,6 +47,7 @@ def cart(request):
     context = {'items' : items , 'total_item_cart' : total_item_cart
                ,'total_cost_cart' : total_cost_cart}
     return render(request, 'store/cart.html', context)
+
 
 
 def checkout(request):
@@ -83,6 +86,7 @@ def checkout(request):
         'addresses' : addresses,
     }
     return render(request, 'store/checkout.html', context)
+
 
 
 @csrf_exempt
@@ -139,6 +143,7 @@ def update_item_quantity(request):
     return JsonResponse(dic,safe=False)
 
 
+
 def item_detail(request,id):
     total_item_cart = 0
 
@@ -153,16 +158,49 @@ def item_detail(request,id):
     }
     return render(request,'store/item_detail.html',context)
 
-# @login_required()
-# def shipping_ad(request):
-#     form = ShippingForm()
-#     if request.method == 'POST':
-#         form = ShippingForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#         return HttpResponseRedirect('checkout')
-#
-#     context = {
-#         'form' : form
-#     }
-#     return render(request)
+
+
+def make_payment(request,id):
+
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('user_login'))
+
+    dt = datetime.datetime.now()
+    seq = int(dt.strftime("%Y%m%d%H%M%S"))
+
+    adr = ShippingAddress.objects.get(id = id)
+    obj = FullOrder.objects.create(user = request.user)
+
+    obj.recepient_fullname = adr.recepient_fullname
+    obj.phone_no = adr.phone_no
+    obj.address_line1 = adr.address_line1
+    obj.address_line2 = adr.address_line2
+    obj.city = adr.city
+    obj.state = adr.state
+    obj.country = adr.country
+    obj.zipcode = adr.zipcode
+    obj.transaction_id = seq
+    obj.save()
+
+    total_amount = 0
+    items = OrderItem.objects.all()
+    for item in items:
+        item_purchased = Purchased_item.objects.create(order = obj)
+        item_purchased.user = request.user
+        item_purchased.quantity = item.quantity
+        item_purchased.name = item.product.name
+        item_purchased.price = item.product.price
+        item_purchased.image = item.product.image
+        item_purchased.description = item.product.description
+        item_purchased.save()
+        total_amount += item.product.price * item.quantity
+
+        item.delete()
+
+    obj.amount = total_amount
+    obj.save()
+    context = {
+        'total_amount' : total_amount,
+    }
+
+    return JsonResponse(context,safe=False)

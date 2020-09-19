@@ -10,7 +10,7 @@ from django.http import HttpResponse , HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from store.models import Product,OrderItem
+from store.models import Product,OrderItem , FullOrder , Purchased_item
 
 # Create your views here.
 def user_login(request):
@@ -124,14 +124,18 @@ def profilepage(request,username):
         for item in items:
             total_item_cart += item.quantity
 
-    items = OrderItem.objects.filter(user = request.user , complete=True)
     user = User.objects.get(username=username)
     profile = Profile.objects.all()
+    ordered = FullOrder.objects.filter(user=request.user).order_by('-date_ordered')
+    items = Purchased_item.objects.filter(user=request.user)
+
     context = {
-        'profile' : profile,
-        'user':user,
-        'total_item_cart' : total_item_cart,
+        'ordered' : ordered,
         'items' : items,
+        'profile' : profile,
+        'user' : user,
+        'total_item_cart' : total_item_cart,
     }
+
 
     return render(request,'accounts/profilepage.html',context)

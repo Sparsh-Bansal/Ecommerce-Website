@@ -37,6 +37,7 @@
 	<br>
 	<br>
 	{% if request.user.is_authenticated %}
+				<h6>Use below Addresses</h6>
 				<div class="box-element">
 					{% for adr in addresses %}
 						<div class="cart-row">
@@ -49,11 +50,16 @@
 								<pre class="quantity">{{adr.state}},</pre>
 								<pre class="quantity">{{adr.country}},</pre>
 								<pre class="quantity">{{adr.zipcode}}</pre>
-								<pre><a href="#">Use Address</a></pre>
+								<pre><a href="{% url 'make_payment' adr.id %}">Use Address</a></pre>
 							</div>
 						</div>
 					{% endfor %}
 				</div>
 	{% endif %}
+	<br><br>
+	<blockquote class="blockquote text-center">
+		<p class="mb-0">** That's it! **</p>
+		<footer class="blockquote-footer"> You've scrolled to the end of the List!</footer>
+	</blockquote>
 
 {% endblock content %}

@@ -60,27 +60,6 @@
 				</div>
 			{% endif %}
 	</div>
-	<!-- <div>
-		<h2 class="display-6">Your Asked Questions</h2>
-		<hr class="my-4">
-		{% for q in questions %}
-			<div>
-				<h2><p><a style="color: black;" href="{% url 'quora:ques_detail' q.id %}">{{q.title}}</a></p></h2>
-				<p><strong>Author: </strong><a href="{% url 'quora:profilepage' q.author %}">{{q.author}}</a>
-					<span class="float-right">
-						<span class="badge badge-secondary">Created: {{q.created}}</span>
-						<span class="badge badge-secondary">Updated: {{q.updated}}</span>
-						<span style="text-transform: capitalize;" class="badge badge-secondary">{{q.status}}</span></p>
-					</span>
-				</p>
-				<h4>Description:</h4><h6>{{q.body}}</h6>
-			</div>
-			<br>
-			<hr class="my-4">
-		{% endfor %}
-	</div>
-	<br>
-	<br> -->
 	<blockquote class="blockquote text-center">
 		<p class="mb-0">** That's it! **</p>
 		<footer class="blockquote-footer"> You've scrolled to the end of the List!</footer>
