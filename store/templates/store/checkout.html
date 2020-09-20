@@ -50,11 +50,18 @@
 								<pre class="quantity">{{adr.state}},</pre>
 								<pre class="quantity">{{adr.country}},</pre>
 								<pre class="quantity">{{adr.zipcode}}</pre>
-								<pre><a href="{% url 'make_payment' adr.id %}">Use Address</a></pre>
+								<br>
+								<div class="quantity">
+									<pre><a href="{% url 'make_payment' adr.id %}">Use</a></pre>
+								</div>
+								<div class="quantity">
+									<pre><a href="{% url 'delete_address' adr.id %}">Delete</a></pre>
+								</div>
 							</div>
 						</div>
 					{% endfor %}
 				</div>
+				<p>* It is static website , so once you will use one of the above addresses , you will not be directed to the payment gateway , instead , you will be directed to the PAYMENT SUCCESSFUL PAGE .</p>
 	{% endif %}
 	<br><br>
 	<blockquote class="blockquote text-center">

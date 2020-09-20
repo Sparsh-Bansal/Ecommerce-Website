@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from .models import Product , OrderItem , ShippingAddress , FullOrder , Purchased_item
+from .models import ProductCategories
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ShippingForm
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse , HttpResponseRedirect
+from django.http import HttpResponse , HttpResponseRedirect ,Http404
 from django.urls import reverse
 import datetime
 import json
@@ -20,33 +21,14 @@ def store(request):
         for item in items:
             total_item_cart += item.quantity
 
-    products = Product.objects.all()
+
+    product_categories = ProductCategories.objects.all()
 
     context = {
-        'products' : products,
+        'product_categories' : product_categories,
         'total_item_cart' : total_item_cart,
     }
     return render(request, 'store/store.html', context)
-
-
-
-def cart(request):
-
-    items = []
-    total_cost_cart=0
-    total_item_cart=0
-
-    if request.user.is_authenticated:
-        items = OrderItem.objects.filter(user = request.user)
-        for item in items:
-            total_item_cart += item.quantity
-
-        for item in items:
-            total_cost_cart += item.get_total
-
-    context = {'items' : items , 'total_item_cart' : total_item_cart
-               ,'total_cost_cart' : total_cost_cart}
-    return render(request, 'store/cart.html', context)
 
 
 
@@ -67,6 +49,9 @@ def checkout(request):
         for item in items:
             total_cost_cart += item.get_total
 
+    if total_item_cart == 0:
+        return Http404
+
     form = ShippingForm()
     if request.method == 'POST':
         form = ShippingForm(request.POST)
@@ -78,8 +63,10 @@ def checkout(request):
 
     addresses = ShippingAddress.objects.filter(user = request.user)
 
+    product_categories = ProductCategories.objects.all()
 
     context = {
+        'product_categories' : product_categories,
         'items': items,
         'total_item_cart': total_item_cart,
         'total_cost_cart': total_cost_cart,
@@ -146,7 +133,39 @@ def update_item_quantity(request):
 
 
 
+def cart(request):
+
+    items = []
+    total_cost_cart=0
+    total_item_cart=0
+
+    if request.user.is_authenticated:
+        items = OrderItem.objects.filter(user = request.user)
+        for item in items:
+            total_item_cart += item.quantity
+
+        for item in items:
+            total_cost_cart += item.get_total
+
+    if total_item_cart==0:
+        check = False
+    else:
+        check = True
+
+    product_categories = ProductCategories.objects.all()
+    context = {
+        'items' : items ,
+        'total_item_cart' : total_item_cart,
+        'total_cost_cart' : total_cost_cart,
+        'check':check,
+        'product_categories': product_categories,
+    }
+    return render(request, 'store/cart.html', context)
+
+
+
 def item_detail(request,id):
+
     total_item_cart = 0
 
     if request.user.is_authenticated:
@@ -154,11 +173,15 @@ def item_detail(request,id):
         for item in items:
             total_item_cart += item.quantity
     product = Product.objects.get(id=id)
+
+    product_categories = ProductCategories.objects.all()
     context = {
+        'product_categories': product_categories,
         'product' : product,
         'total_item_cart' : total_item_cart,
     }
     return render(request,'store/item_detail.html',context)
+
 
 
 def order_details(request):
@@ -182,7 +205,10 @@ def order_details(request):
             tt.append(item)
         ordered.append({'order': order, 'items': tt})
 
+    product_categories = ProductCategories.objects.all()
+
     context = {
+        'product_categories': product_categories,
         'ordered': ordered,
         'total_item_cart': total_item_cart,
     }
@@ -229,9 +255,43 @@ def make_payment(request,id):
 
     obj.amount = total_amount
     obj.save()
+
+    return render(request,'store/payment_success.html')
+
+
+
+def delete_address(request,id):
+
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('user_login'))
+
+    adr = ShippingAddress.objects.get(id=id)
+
+    if adr.user != request.user:
+        return Http404
+
+    adr.delete()
+    return HttpResponseRedirect(reverse('checkout'))
+
+
+
+def show_items(request,id):
+    total_item_cart = 0
+
+    if request.user.is_authenticated:
+        items = OrderItem.objects.filter(user=request.user)
+        for item in items:
+            total_item_cart += item.quantity
+
+    product_category = ProductCategories.objects.get(id=id)
+    products = Product.objects.filter(category=product_category)
+
+    product_categories = ProductCategories.objects.all()
+
     context = {
-        'total_amount' : total_amount,
+        'product_categories' : product_categories,
+        'product_category' : product_category,
+        'products': products,
+        'total_item_cart': total_item_cart,
     }
-
-    return JsonResponse(context,safe=False)
-
+    return render(request, 'store/show_items.html', context)

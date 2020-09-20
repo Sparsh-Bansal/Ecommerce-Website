@@ -3,12 +3,28 @@ from django.contrib.auth.models import User
 import datetime
 # Create your models here.
 
+
 class ProductCategories(models.Model):
-    pass
+
+    name = models.CharField(max_length=100,blank=False,null=True)
+    image = models.ImageField(null=True,blank=False)
+
+    @property
+    def get_imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+
+    def __str__(self):
+        return self.name
+
 
 
 class Product(models.Model):
 
+    category = models.ManyToManyField(ProductCategories)
     name = models.CharField(max_length=100,blank=False,name=False)
     price = models.FloatField(blank=False,null=False)
     image = models.ImageField(null=True,blank=True)

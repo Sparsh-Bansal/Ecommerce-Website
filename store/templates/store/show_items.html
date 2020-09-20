@@ -1,14 +1,20 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
+	<h1 style="text-align: center;">{{product_category.name}}</h1>
+	<br>
 	<div class="row">
-		{% for product in product_categories %}
+		{% for product in products %}
 			<div class="col-lg-4">
 				<img class="thumbnail" src="{{ product.get_imageURL }}">
 				<div class="box-element product">
 					<h6><strong>{{product.name}}</strong></h6>
 					<hr>
-					<a class="btn btn-outline-success" href="{% url 'show_items' product.id %}">View Items</a>
+
+					<button  class="update_cart btn btn-outline-secondary add-btn" product_id ="{{product.id}}">Add to Cart</button>
+
+					<a class="btn btn-outline-success" href="{% url 'item_detail' product.id %}">View</a>
+					<h4 style="display: inline-block; float: right"><strong>&#8377;{{product.price}}</strong></h4>
 
 				</div>
 			</div>

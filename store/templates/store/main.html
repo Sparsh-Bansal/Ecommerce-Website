@@ -23,7 +23,7 @@
 		  display: none;
 		  position: absolute;
 		  background-color: #f1f1f1;
-		  min-width: 120px;
+		  min-width: 180px;
 		  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 		  z-index: 1;
 		}
@@ -63,9 +63,9 @@
 	    		<div class="dropdown">
 					  <h5><strong><a style="color: white">Categories</a></strong></h5>
 					  <div class="dropdown-content">
-					    <a href="#">Link 1</a>
-					    <a href="#">Link 2</a>
-					    <a href="#">Link 3</a>
+					    {% for product in product_categories %}
+					    	<a href="{% url 'show_items' product.id %}">{{product.name}}</a>
+					    {% endfor%}
 					  </div>
 				</div>
 				<h2 style="color: darkcyan">...</h2>
@@ -81,10 +81,19 @@
 				<h2 style="color: darkcyan">.</h2>
 		    	<h5><strong><a href="{% url 'profilepage' username=request.user.username %}" style="color: white">{{request.user.username}}</a></strong></h5>
 	     	{% else %}
+	     		<div class="dropdown">
+					  <h5><strong><a style="color: white">Categories</a></strong></h5>
+					  <div class="dropdown-content">
+					    {% for product in product_categories %}
+					    	<a href="{% url 'show_items' product.id %}">{{product.name}}</a>
+					    {% endfor%}
+					  </div>
+				</div>
+				<h2 style="color: darkcyan">...</h2>
 	     		<h5><strong><a href="{% url 'user_login' %}" style="color: white">Login</a></strong></h5>
 	     		<h2 style="color: darkcyan">...</h2>
 	     		<div>
-		     		<h5><strong><a href="{% url 'register' %}" style="color: white">Register</a></strong></h5>
+		     		<h5><strong><a href="{% url 'register' %}" style="color: white">SignUp</a></strong></h5>
 	     		</div>
 	     	{% endif %}
 	     	<h2 style="color: darkcyan">..</h2>
@@ -117,3 +126,4 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 </html>
+

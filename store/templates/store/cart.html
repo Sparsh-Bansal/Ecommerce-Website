@@ -14,7 +14,9 @@
 						<th><h5>Items: <strong>{{total_item_cart}}</strong></h5></th>
 						<th><h5>Total:<strong> &#8377;{{total_cost_cart}}</strong></h5></th>
 						<th>
-							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
+							{% if check %}
+								<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
+							{% endif %}
 						</th>
 					</tr>
 				</table>
@@ -51,4 +53,10 @@
 			{% endif %}
 		</div>
 	</div>
+
+	<br><br>
+	<blockquote class="blockquote text-center">
+		<p class="mb-0">** That's it! **</p>
+		<footer class="blockquote-footer"> You've scrolled to the end of the List!</footer>
+	</blockquote>
 {% endblock content %}

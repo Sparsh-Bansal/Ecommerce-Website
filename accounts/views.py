@@ -10,13 +10,14 @@ from django.http import HttpResponse , HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from store.models import Product,OrderItem , FullOrder , Purchased_item
+from store.models import Product,OrderItem , FullOrder , Purchased_item , ProductCategories
 
 
 # Create your views here.
 def user_login(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('store'))
+
 
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -38,7 +39,11 @@ def user_login(request):
     else:
         form = LoginForm()
 
+    product_categories = ProductCategories.objects.all()
+
     context = {
+        'product_categories': product_categories,
+        'total_item_cart' : 0,
         'form' : form
     }
 
@@ -70,7 +75,11 @@ def register(request):
     else:
         form = UserRegistrationForm()
 
+    product_categories = ProductCategories.objects.all()
+
     context = {
+        'product_categories': product_categories,
+        'total_item_cart' : 0,
         'form' : form
     }
 
@@ -104,7 +113,10 @@ def edit_profile(request):
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
 
+    product_categories = ProductCategories.objects.all()
+
     context = {
+        'product_categories': product_categories,
         'user_form' : user_form,
         'profile_form' : profile_form,
         'total_item_cart' : total_item_cart,
@@ -136,7 +148,11 @@ def profilepage(request,username):
         for item in items:
             tt.append(item)
         ordered.append({'order':order , 'items':tt})
+
+    product_categories = ProductCategories.objects.all()
+
     context = {
+        'product_categories': product_categories,
         'ordered' : ordered,
         'profile' : profile,
         'user' : user,
