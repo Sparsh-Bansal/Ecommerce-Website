@@ -1,0 +1,19 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+     <div class="row" style="text-align: center;">
+		<div class="col-lg-6">
+			<div class="box-element" id="form-wrapper">
+     		<h3><strong>Edit Your Address</strong></h3>
+			
+				<form method="POST">
+					{% csrf_token %}
+					{{ form|crispy }}
+					<br>
+					<input type="submit" class="btn btn-primary mb-2" name="submit" , value='Save'>	
+				</form>
+			</div>
+		</div>
+
+{% endblock content %}

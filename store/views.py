@@ -3,7 +3,7 @@ from .models import Product , OrderItem , ShippingAddress , FullOrder , Purchase
 from .models import ProductCategories
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .forms import ShippingForm
+from .forms import ShippingForm , ShippingUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse , HttpResponseRedirect ,Http404
 from django.urls import reverse
@@ -153,6 +153,7 @@ def cart(request):
         check = True
 
     product_categories = ProductCategories.objects.all()
+
     context = {
         'items' : items ,
         'total_item_cart' : total_item_cart,
@@ -172,14 +173,17 @@ def item_detail(request,id):
         items = OrderItem.objects.filter(user=request.user)
         for item in items:
             total_item_cart += item.quantity
+
     product = Product.objects.get(id=id)
 
     product_categories = ProductCategories.objects.all()
+
     context = {
         'product_categories': product_categories,
         'product' : product,
         'total_item_cart' : total_item_cart,
     }
+
     return render(request,'store/item_detail.html',context)
 
 
@@ -239,6 +243,7 @@ def make_payment(request,id):
     obj.save()
 
     total_amount = 0
+
     items = OrderItem.objects.all()
     for item in items:
         item_purchased = Purchased_item.objects.create(order = obj)
@@ -276,6 +281,7 @@ def delete_address(request,id):
 
 
 def show_items(request,id):
+
     total_item_cart = 0
 
     if request.user.is_authenticated:
@@ -295,3 +301,67 @@ def show_items(request,id):
         'total_item_cart': total_item_cart,
     }
     return render(request, 'store/show_items.html', context)
+
+
+
+def search(request):
+    total_item_cart = 0
+
+    query = request.GET['search']
+
+    if request.user.is_authenticated:
+        items = OrderItem.objects.filter(user=request.user)
+        for item in items:
+            total_item_cart += item.quantity
+
+    product_categories = ProductCategories.objects.all()
+    products_temp = Product.objects.all()
+
+    products =[]
+
+    for p in products_temp:
+        if query.lower() in p.name.lower() or query.lower() in p.description.lower():
+            products.append(p)
+
+    context = {
+        'products' : products,
+        'product_categories': product_categories,
+        'total_item_cart': total_item_cart,
+    }
+
+    return render(request, 'store/search.html', context)
+
+
+def update_address(request,id):
+
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('user_login'))
+
+    total_item_cart = 0
+    if request.user.is_authenticated:
+        items = OrderItem.objects.filter(user=request.user)
+        for item in items:
+            total_item_cart += item.quantity
+
+    product_categories = ProductCategories.objects.all()
+
+    adr = ShippingAddress.objects.get(id=id)
+
+    if adr.user != request.user:
+        return Http404()
+
+    if request.method == 'POST':
+        form = ShippingUpdateForm(request.POST,instance=adr)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('checkout'))
+    else:
+        form = ShippingUpdateForm(instance=adr)
+
+    context = {
+        'product_categories' : product_categories,
+        'total_item_cart' : total_item_cart,
+        'form' : form ,
+    }
+
+    return render(request ,'store/update_address.html',context)

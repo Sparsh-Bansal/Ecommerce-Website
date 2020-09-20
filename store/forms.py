@@ -7,3 +7,9 @@ class ShippingForm(ModelForm):
         fields = '__all__'
         exclude = ['user']
 
+
+class ShippingUpdateForm(ModelForm):
+    class Meta:
+        model = ShippingAddress
+        fields = '__all__'
+        exclude = ['user']

@@ -14,4 +14,6 @@ urlpatterns = [
     path('make_payment/<int:id>',views.make_payment,name='make_payment'),
     path('delete_address/<int:id>', views.delete_address, name='delete_address'),
     path('show_items/<int:id>',views.show_items,name='show_items'),
+    path('search/',views.search,name='search'),
+    path('update_address/<int:id>',views.update_address,name='update_address')
 ]

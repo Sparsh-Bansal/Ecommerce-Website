@@ -59,44 +59,36 @@
 	 
 	    </ul>
 	    <div class="form-inline my-2 my-lg-0">
+	    	
+	    	<form method="get" action="{% url 'search' %}" class="form-inline my-2 my-lg-0">
+					<input type="search" name="search" aria-label="Search" placeholder="Search" class="form-control mr-sm-2">
+					<button class="btn btn-success my-2 mr-sm-3" type="submit">Search</button>
+			</form>
+
+			<div class="dropdown mr-sm-3">
+					  <h5><strong><a style="color: white">Categories</a></strong></h5>
+					  <div class="dropdown-content">
+					    {% for product in product_categories %}
+					    	<a href="{% url 'show_items' product.id %}">{{product.name}}</a>
+					    {% endfor%}
+					  </div>
+			</div>
 	    	{% if request.user.is_authenticated %}
-	    		<div class="dropdown">
-					  <h5><strong><a style="color: white">Categories</a></strong></h5>
-					  <div class="dropdown-content">
-					    {% for product in product_categories %}
-					    	<a href="{% url 'show_items' product.id %}">{{product.name}}</a>
-					    {% endfor%}
-					  </div>
-				</div>
-				<h2 style="color: darkcyan">...</h2>
-	     		<h5><strong><a href="{% url 'order_details' %}" style="color: white">Orders</a></strong></h5>
-	     		<h2 style="color: darkcyan">...</h2>
-	     		<h5><strong><a href="{% url 'user_logout' %}" style="color: white">Logout</a></strong></h5>
-	     		<h2 style="color: darkcyan">.......</h2>
+	     		<h5 class="mr-sm-3"><strong><a href="{% url 'order_details' %}" style="color: white">Orders</a></strong></h5>
+	     		<h5 class="mr-sm-3"><strong><a href="{% url 'user_logout' %}" style="color: white">Logout</a></strong></h5>
 	     		{% if request.user.profile.photo %}
-					<a href="{% url 'profilepage' username=user.username %}"><img src="{{ request.user.profile.photo.url }}" width="35" height="35"></a>
+					<a href="{% url 'profilepage' username=user.username %}"><img class="mr-sm-1" src="{{ request.user.profile.photo.url }}" width="35" height="35"></a>
 				{% else %}
-					<a href="{% url 'profilepage' username=user.username %}"><img src="/static/images/default.png" width="35" , height="35"></a>
+					<a href="{% url 'profilepage' username=user.username %}"><img class="mr-sm-1" src="/static/images/default.png" width="35" , height="35"></a>
 				{% endif %}
-				<h2 style="color: darkcyan">.</h2>
 		    	<h5><strong><a href="{% url 'profilepage' username=request.user.username %}" style="color: white">{{request.user.username}}</a></strong></h5>
+	     	
 	     	{% else %}
-	     		<div class="dropdown">
-					  <h5><strong><a style="color: white">Categories</a></strong></h5>
-					  <div class="dropdown-content">
-					    {% for product in product_categories %}
-					    	<a href="{% url 'show_items' product.id %}">{{product.name}}</a>
-					    {% endfor%}
-					  </div>
-				</div>
-				<h2 style="color: darkcyan">...</h2>
-	     		<h5><strong><a href="{% url 'user_login' %}" style="color: white">Login</a></strong></h5>
-	     		<h2 style="color: darkcyan">...</h2>
+	     		<h5 class="mr-sm-3"><strong><a href="{% url 'user_login' %}" style="color: white">Login</a></strong></h5>
 	     		<div>
-		     		<h5><strong><a href="{% url 'register' %}" style="color: white">SignUp</a></strong></h5>
+		     		<h5 class="mr-sm-3"><strong><a href="{% url 'register' %}" style="color: white">SignUp</a></strong></h5>
 	     		</div>
 	     	{% endif %}
-	     	<h2 style="color: darkcyan">..</h2>
 	     	<a href="{% url 'cart' %}">
 	    		<img  id="cart-icon" src="{% static 'images/cart.png' %}">
 	    	</a>
@@ -126,4 +118,3 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 </html>
-
