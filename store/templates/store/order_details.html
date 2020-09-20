@@ -28,8 +28,8 @@
                             </div>
                         </div>
                     {% for item in order.items %}
-                        <div class="cart-row" style="background-color: lightblue">
-                            <div style="flex:1"><img class="row-image" src="{{item.get_imageURL}}"></div>
+                        <div class="cart-row" style="background-color: lightblue;height: 80px">
+                            <div style="flex:1"><img style="width: 80px; height: 80px;margin-left: 20px" class="row-image" src="{{item.get_imageURL}}"></div>
                             <div style="flex:1"><p>Product :{{item.name}}</p></div>
                             <div style="flex:1"><p>Price :&#8377;{{item.price}}</p></div>
                             <div style="flex:1">

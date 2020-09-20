@@ -21,8 +21,8 @@
 				<h3>Order Summary</h3>
 				<hr>
 				{% for item in items %}
-					<div class="cart-row" style="background-color: lightyellow">
-						<div style="flex:2"><a href="{% url 'item_detail' item.product.id %}"><img class="row-image" src="{{ item.product.get_imageURL }}"></a></div>
+					<div class="cart-row" style="background-color: lightyellow;height: 80px">
+						<div style="flex:2"><a href="{% url 'item_detail' item.product.id %}"><img class="row-image" src="{{ item.product.get_imageURL }}" style="width: 80px; height: 80px;margin-left: 20px"></a></div>
 						<div style="flex:2"><p>{{item.product.name}}</p></div>
 						<div style="flex:1"><p>&#8377;{{item.product.price|floatformat:2}}</p></div>
 						<div style="flex:1"><p>x{{item.quantity}}</p></div>
