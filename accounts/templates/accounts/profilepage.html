@@ -5,7 +5,7 @@
 			{% if request.user.profile.photo %}
 				<img src="{{ user.profile.photo.url }}" class="mx-auto img-fluid img-circle d-block" alt="avatar" width="150" height="150">
 			{% else %}
-				<img src="static/images/default.png" class="mx-auto img-fluid img-circle d-block" alt="avatar" width="150" , height="150">
+				<img src="http://127.0.0.1:8000/static/images/default.png" class="mx-auto img-fluid img-circle d-block" alt="avatar" width="150" , height="150">
 			{% endif %}
             {% if request.user.is_authenticated %}
 				{% if request.user == user %}

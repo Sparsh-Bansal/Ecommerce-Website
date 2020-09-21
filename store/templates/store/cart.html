@@ -1,12 +1,16 @@
 {% extends 'store/main.html' %}
 {% load static %}
 {% block content %}
+	{% if total_item_cart %}
+		<h2>Shopping Cart</h2>
+	{% else %}
+		<h2>Your Shopping Cart is empty !!</h2>
+	{% endif %}
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="box-element">
 
 				<a  class="btn btn-outline-dark" href="{% url 'store' %}">&#x2190; Continue Shopping</a>
-
 				<br>
 				<br>
 				<table class="table" style="background-color: lightyellow">
