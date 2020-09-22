@@ -23,8 +23,8 @@ urlpatterns = [
     path('',include('store.urls'),name='app_store'),
     path('',include('accounts.urls'),name='auth'),
     path('', include('django.contrib.auth.urls')),
-    path('', include('social_django.urls', namespace='social'))
-
+    path('', include('django.contrib.auth.urls')),
+    path(r'^oauth/', include('social_django.urls', namespace='social')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

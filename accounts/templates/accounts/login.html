@@ -11,13 +11,14 @@
 	</form>
 	<br>
 	<a class="align-middle" href="{% url 'password_reset' %}">Forgotten Your password?</a><br>
-	<h5 class="align-middle">OR</h5>
+	<h6 class="align-middle">OR</h6>
 	<a class="align-middle" href="{% url 'register' %}">Create a new account!</a>
-	<!-- <div>
+	<br><br>
+	<div>
 		<h3>Login with :</h3>
 		<a href="{% url 'social:begin' 'google-oauth2' %}">
-			<button type="button" name="button">Google</button>
+			<button type="button" name="button" class="btn btn-danger">Google</button>
 		</a>
-	</div> -->
+	</div>
 
 {% endblock %}

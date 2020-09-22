@@ -44,6 +44,13 @@ INSTALLED_APPS = [
     'crispy_forms',
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -52,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
@@ -67,6 +75,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -132,10 +142,14 @@ MEDIA_ROOT = os.path.join(STATIC_DIR,'images')
 print(MEDIA_ROOT)
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_URL_NAMESPACE = "users:social"
+SOCIAL_AUTH_URL_NAMESPACE = "social"
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_URL = ''
 LOGOUT_URL = 'store/'
 
 LOGIN_REDIRECT_URL = 'store'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '566463432078-j9d7ick4qsl8tltc87up7juf34t4q06p.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '2UjmE-lYmCyUEARQuHOTHSyc'
