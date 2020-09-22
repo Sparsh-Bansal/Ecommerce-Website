@@ -77,6 +77,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
+                # 'django.core.context_processors.csrf',
             ],
         },
     },
@@ -136,6 +137,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [STATIC_DIR,]
 STATIC_ROOT = os.path.join(BASE_DIR ,'staticfiles')
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MEDIA_URL = '/images/'
 MEDIA_ROOT = os.path.join(STATIC_DIR,'images')
