@@ -52,7 +52,7 @@
 <p>-- Payment Gateway Feature (Not Integrated as it's not in production)</p>
 <img src="/image_readme/payment.png">
 
-### Orders page :
+### Orders Page :
 <p>-- Details of the orders</p>
 <p>-- Track your order (Not Integrated as it's not in production)</p>
 <img src="/image_readme/orders.png">
