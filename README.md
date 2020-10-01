@@ -1,6 +1,6 @@
 # Ecommerce-Website
 
-## Setup
+## Follwo Setups
 1. pip install -r requirements.txt
 2. cd Qoura-clone
 3. python manage.py makemigrations
@@ -8,7 +8,7 @@
 5. python manage.py runserver
 6. Access admin panel by creating superuser :->  python manage.py createsuperuser
 
-### SignUp Page :
+### How To SignUp Page :
 <p>-- User have to register to purchase items.</p>
 <p>-- Email Verificaton Feature.</p>
 <img src="/image_readme/register.png">
