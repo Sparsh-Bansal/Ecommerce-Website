@@ -1,6 +1,6 @@
-# Ecommerce-Website
+# E-commerce Website - With a awesome and clean UI !!!
 
-## Setup
+## Setup :
 1. pip install -r requirements.txt
 2. cd Qoura-clone
 3. python manage.py makemigrations
@@ -27,7 +27,7 @@
 <img src="/image_readme/edit profile.png">
 
 ### Ecommerce Front Page:
-<p>-- Category wise items is shown</p>
+<p>-- Items are sorted categorically for the convinience of the user</p>
 <p>-- Search Button Feature</p>
 <img src="/image_readme/store.png">
 
@@ -42,7 +42,7 @@
 <img src="/image_readme/cart.png">
 
 ### Checkout Page:
-<p>-- Final Order summary is shown</p>
+<p>-- Final Order summary and the subtotal is shown</p>
 <p>-- New Address Feature</p>
 <p>-- Edit Delete or Use of stored address Feature</p>
 <img src="/image_readme/checkout.png">
@@ -54,5 +54,6 @@
 
 ### Orders page :
 <p>-- Details of the orders</p>
+<p>-- Transaction ID is provided to the user for future references
 <p>-- Track your order (Not Integrated as it's not in production)</p>
 <img src="/image_readme/orders.png">
