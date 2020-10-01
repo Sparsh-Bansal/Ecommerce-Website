@@ -1,7 +1,7 @@
-# Ecommerce-Website
+# "Ecommerce-Website:-(FOR BEGINNERS)"
 
 ## Setup
-1. pip install -r requirements.txt
+1. pip install - requirements.txt
 2. cd Qoura-clone
 3. python manage.py makemigrations
 4. python manage.py migrate
@@ -56,3 +56,5 @@
 <p>-- Details of the orders</p>
 <p>-- Track your order (Not Integrated as it's not in production)</p>
 <img src="/image_readme/orders.png">
+
+"THANK YOU FOR GIVING ME YOUR PRECIOUS TIME"
