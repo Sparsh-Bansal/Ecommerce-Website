@@ -1,4 +1,4 @@
-# Ecommerce-Website
+# E-Commerce Website
 
 ## Setup
 1. pip install -r requirements.txt
